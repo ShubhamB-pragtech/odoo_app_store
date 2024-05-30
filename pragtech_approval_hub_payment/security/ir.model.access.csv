@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_approvehub_payment_user_line,access.approvehub.payment.user.line,model_approvehub_payment_user_line,base.group_user,1,1,1,0
+access_payment_reason_wizard,access.payment.reason.wizard,model_payment_reason_wizard,base.group_user,1,1,1,1

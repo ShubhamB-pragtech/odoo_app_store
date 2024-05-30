@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="reject_payment_email_template" model="mail.template">
+            <field name="name">Approval Payment Reject Order Email Template</field>
+            <field name="model_id" ref="pragtech_approval_hub_payment.model_account_payment"/>
+            <field name="subject">Reject Notification</field>
+            <field name="email_from">{{ user.email}}</field>
+            <field name="email_to">{{ (object.user_id.email) }}</field>
+            <field name="body_html" type="html">
+                <table border="0" cellpadding="0" cellspacing="0"
+                       style="padding-top: 16px; background-color: #FFFFFF; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;">
+                    <tr>
+                        <td align="center">
+                            <table border="0" cellpadding="0" cellspacing="0" width="590"
+                                   style="padding: 16px; background-color: #FFFFFF; color: #454748; border-collapse:separate;">
+                                <tbody>
+                                    <tr>
+                                        <td align="center" style="min-width: 590px;">
+                                            <table border="0" cellpadding="0" cellspacing="0"
+                                                   width="590"
+                                                   style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                                                <tr>
+                                                    <td style="text-align:center;">
+                                                        <hr width="100%"
+                                                            style="background-color:rgb(204,204,204); border:medium none; clear:both;display:block; font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td valign="top" style="font-size: 13px;">
+                                                        <div>Dear <t t-out="object.user_id.name"></t>,
+                                                            <p>Your payment has been rejected on
+                                                                <t t-out="object.create_date.strftime('%Y-%m-%d %H:%M:%S')"/>
+                                                            </p>
+                                                            <p>
+                                                                Here are the details of your submission:
+                                                            </p>
+                                                            <table>
+                                                                <tr>
+                                                                    <td>
+                                                                        <strong>Payment Type:</strong>
+                                                                    </td>
+                                                                    <td>
+                                                                        <t t-if="object.payment_type == 'outbound'">
+                                                                            Send
+                                                                        </t>
+                                                                        <t t-if="object.payment_type == 'inbound'">
+                                                                            Receive
+                                                                        </t>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <strong>Payment Method:</strong>
+                                                                    </td>
+                                                                    <td>
+                                                                        <t t-out="object.journal_id.name"/>
+                                                                        (
+                                                                        <t t-out="object.payment_method_line_id.name"/>
+                                                                        )
+                                                                    </td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td>
+                                                                        <strong>Amount:</strong>
+                                                                    </td>
+                                                                    <td>
+                                                                        <t t-out="object.currency_id.symbol"/>
+                                                                        <t t-out="object.amount"/>
+                                                                        (<t t-out="object.currency_id.name"/>)
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                            <p>
+                                                                <a t-if="object.id"
+                                                                   t-att-href="'/web#id=' + str(object.id) + '&amp;model=account.payment'"
+                                                                   style="padding: 5px 10px; color: #FFFFFF; text-decoration: none; background-color: #875A7B; border: 1px solid #875A7B; border-radius: 3px">
+                                                                    View Payment
+                                                                </a>
+                                                            </p>
+                                                            <br/>
+                                                            <br/>
+                                                            Your request has been Reviewed and Rejected . Thank you for
+                                                            your submission!
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="text-align:center;">
+                                                        <hr width="100%"
+                                                            style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </field>
+        </record>
+    </data>
+</odoo>

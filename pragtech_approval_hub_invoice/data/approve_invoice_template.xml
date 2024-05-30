@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <odoo>
+        <data>
+            <record id="approval_invoice_approve_template_id" model="mail.template">
+                <field name="name">Approval Approve Sale Order Email Template</field>
+                <field name="model_id" ref="pragtech_approval_hub_invoice.model_account_move"/>
+                <field name="subject">Approval Notification</field>
+                <field name="email_from">{{ (user.email) }}</field>
+                <field name="email_to">{{ (object.user_id.email) }}</field>
+                <field name="body_html" type="html">
+                    <table border="0" cellpadding="0" cellspacing="0"
+                           style="padding-top: 16px; background-color: #FFFFFF; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;">
+                        <tr>
+                            <td align="center">
+                                <table border="0" cellpadding="0" cellspacing="0" width="590"
+                                       style="padding: 16px; background-color: #FFFFFF; color: #454748; border-collapse:separate;">
+                                    <tbody>
+                                        <tr>
+                                            <td align="center" style="min-width: 590px;">
+                                                <table border="0" cellpadding="0" cellspacing="0"
+                                                       width="590"
+                                                       style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                                                    <tr>
+                                                        <td style="text-align:center;">
+                                                            <hr width="100%"
+                                                                style="background-color:rgb(204,204,204); border:medium none; clear:both;display:block; font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td valign="top" style="font-size: 13px;">
+                                                            <div>Dear <t t-out="object.user_id.name"></t>,
+                                                                <br/>
+                                                                <br/>
+                                                                We are pleased to inform you that your request for ID: <t
+                                                                        t-out="object.name"></t> has been Approved.
+                                                                <br/>
+                                                                <div>
+                                                                    <p>
+                                                                        You can check the details of your order by
+                                                                        clicking
+                                                                        the
+                                                                        button below:
+                                                                    </p>
+                                                                    <p>
+                                                                        <a t-if="object.id"
+                                                                           t-att-href="'/web#id=' + str(object.id) + '&amp;model=account.move'"
+                                                                           style="padding: 5px 10px; color: #FFFFFF; text-decoration: none; background-color: #875A7B; border: 1px solid #875A7B; border-radius: 3px">
+                                                                            View Invoicing
+                                                                        </a>
+                                                                    </p>
+                                                                </div>
+                                                                <br/>
+                                                                <span style="font-size: 15px; font-weight: bold;">Here
+                                                                    are the details of your submission:
+                                                                </span>
+                                                                <br/>
+                                                                <span style="font-weight: bold;">Reference ID: <t
+                                                                        t-out="object.name"></t>,
+                                                                </span>
+                                                                <br/>
+                                                                <span style="font-weight: bold;">Approved on:
+                                                                    <t t-out="object.create_date"></t>
+                                                                </span>
+                                                                <br/>
+                                                                <br/>
+                                                                <table style="width: 100%; border-collapse: collapse; border: 2px solid #333; text-align: center;">
+                                                                    <thead>
+                                                                        <tr style="background-color: #333; color: #fff; font-weight: bold;">
+                                                                            <th style="padding: 8px; border: 2px solid #333;">
+                                                                                Product Name
+                                                                            </th>
+                                                                            <th style="padding: 8px; border: 2px solid #333;">
+                                                                                Quantity
+                                                                            </th>
+                                                                            <th style="padding: 8px; border: 2px solid #333;">
+                                                                                Price
+                                                                            </th>
+                                                                            <th style="padding: 8px; border: 2px solid #333;">
+                                                                                Subtotal
+                                                                            </th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <t t-foreach="object.invoice_line_ids"
+                                                                           t-as="line">
+                                                                            <tr>
+                                                                                <td style="padding: 8px; border: 2px solid #333;">
+                                                                                    <t t-esc="line.product_id.display_name"/>
+                                                                                </td>
+                                                                                <td style="padding: 8px; border: 2px solid #333;">
+                                                                                    <t t-esc="line.quantity"/>
+                                                                                </td>
+                                                                                <td style="padding: 8px; border: 2px solid #333;">
+                                                                                    <t t-esc="line.price_unit"/>
+                                                                                </td>
+
+                                                                                <td style="padding: 8px; border: 2px solid #333;">
+                                                                                    <t t-esc="line.price_subtotal"/>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </t>
+
+                                                                        <tr style="background-color: #333; color: #fff; font-weight: bold;">
+                                                                            <td colspan="3"
+                                                                                style="text-align: right; padding: 8px; border: 2px solid #333;">
+                                                                                Total:
+                                                                            </td>
+                                                                            <td style="padding: 8px; border: 2px solid #333;">
+                                                                                <t t-esc="sum(object.invoice_line_ids.mapped('price_subtotal'))"/>
+                                                                            </td>
+                                                                        </tr>
+
+                                                                    </tbody>
+                                                                </table>
+                                                                <br/>
+                                                                <br/>
+                                                                Your request has been Reviewed and Approved. Thank you
+                                                                for your submission!
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:center;">
+                                                            <hr width="100%"
+                                                                style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </field>
+            </record>
+        </data>
+    </odoo>
+
+</odoo>

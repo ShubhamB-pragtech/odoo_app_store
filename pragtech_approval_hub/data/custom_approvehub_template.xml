@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="custom_approval_user_email_template_id" model="mail.template">
+            <field name="name">Custom Approval User Email Template</field>
+            <field name="model_id" ref="pragtech_approval_hub.model_approvehub_form"/>
+            <field name="subject">Approval User Email Notification</field>
+            <field name="email_from">{{ (user.email ) }}</field>
+            <field name="body_html" type="html">
+                <p>Here You Can Create Your Custom Mail Template</p>
+
+            </field>
+        </record>
+    </data>
+</odoo>

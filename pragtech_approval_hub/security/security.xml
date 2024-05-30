@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="model_category_approvehub" model="ir.module.category">
+        <field name="name">Approvehub</field>
+        <field name="description">approvehub module users</field>
+        <field name="sequence">1</field>
+    </record>
+
+    <record id="group_approval_hub_user" model="res.groups">
+        <field name="name">User</field>
+        <field name="category_id" ref="model_category_approvehub"></field>
+    </record>
+
+    <record id="group_approval_hub_manager" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="category_id" ref="model_category_approvehub"></field>
+        <field name="implied_ids" eval="[(4, ref('group_approval_hub_user'))]"/>
+    </record>
+
+    <record id="access_approvehub_form" model="ir.model.access">
+        <field name="name">Access Approvehub Form</field>
+        <field name="model_id" ref="model_approvehub_form"/>
+        <field name="group_id" ref="group_approval_hub_manager"/>
+        <field name="perm_read">1</field>
+        <field name="perm_write">1</field>
+        <field name="perm_create">1</field>
+        <field name="perm_unlink">1</field>
+    </record>
+
+    <record id="access_approvehub_form_2" model="ir.model.access">
+        <field name="name">Access Approvehub Form</field>
+        <field name="model_id" ref="model_approvehub_form"/>
+        <field name="group_id" ref="group_approval_hub_user"/>
+        <field name="perm_read">0</field>
+        <field name="perm_write">0</field>
+        <field name="perm_create">0</field>
+        <field name="perm_unlink">0</field>
+    </record>
+</odoo>

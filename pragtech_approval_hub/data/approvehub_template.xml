@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="approval_user_email_template_id" model="mail.template">
+            <field name="name">Approval User Email Template</field>
+            <field name="model_id" ref="pragtech_approval_hub.model_approvehub_form"/>
+            <field name="subject">Approval User Email Notification</field>
+            <field name="email_from">{{ (user.email ) }}</field>
+            <field name="body_html" type="html">
+                <p>
+                    <h1>
+                        <t t-if="object.model_id.model == 'sale.order'">Sales Order</t>
+                        <t t-if="object.model_id.model == 'purchase.order'">Purchase Order</t>
+                        <t t-if="object.model_id.model == 'account.move'">Invoice</t>
+                        <t t-if="object.model_id.model == 'stock.picking'">Inventory Stock</t>
+                        Approval Request
+                    </h1>
+                    <p>A new
+                        <t t-if="object.model_id.model == 'sale.order'">sales order</t>
+                        <t t-if="object.model_id.model == 'purchase.order'">purchase order</t>
+                        <t t-if="object.model_id.model == 'account.move'">Invoice</t>
+                        <t t-if="object.model_id.model == 'stock.picking'">Inventory Stock</t>
+                        requires your Approval.
+                    </p>
+                    <p>
+                        <strong>Order Reference:</strong>
+                        <t t-out="object.model_id.model"></t>
+                    </p>
+                    <p>
+                        <strong>Logged User:</strong>
+                        <t t-out="user.name"></t>
+                    </p>
+                    <p>Please review the details and take the necessary action to Approve or Reject this
+                        <t t-if="object.model_id.model == 'sale.order'">sales order.</t>
+                        <t t-if="object.model_id.model == 'purchase.order'">purchase order.</t>
+                        <t t-if="object.model_id.model == 'account.move'">Invoice</t>
+                        <t t-if="object.model_id.model == 'stock.picking'">Inventory Stock</t>
+
+                    </p>
+                    <br/>
+                    <br/>
+                    <!-- Add a table for user approval lines -->
+                    <table style="border-collapse: collapse; width: 100%; border: 1px solid #000; text-align: center;">
+                        <thead>
+                            <tr style="background-color: #333; color: #fff; font-weight: bold;">
+                                <th style="border: 1px solid #000; padding: 8px;">
+                                    User
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="object.user_ids"
+                               t-as="line">
+                                <tr>
+                                    <td style="border: 1px solid #000; padding: 8px;">
+                                        <t t-esc="line.user_id.name"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    <p>Thank you for your attention.</p>
+                    <p>Best Regards,</p>
+                    <p>The Approvalhub Team</p>
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

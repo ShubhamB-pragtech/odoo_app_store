@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_approval_form_tree">
+            <field name="name">Approval List</field>
+            <field name="model">approvehub.form</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="model_id"/>
+                    <field name="user_ids"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_approvehub_form_kanban" model="ir.ui.view">
+            <field name="name">Approvehub Form Kanban</field>
+            <field name="model">approvehub.form</field>
+            <field name="arch" type="xml">
+                <kanban class="o_modules_kanban" import="false">
+                    <field name="name"/>
+                    <field name="model_id"/>
+                    <field name="user_ids" />
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_card">
+                                <div class="oe_module_action">
+                                    <div class="oe_module_left">
+                                        <div class="oe_module_desc">
+                                            <h4 class="o_kanban_record_title">
+                                                <field name="name"/>
+                                            </h4>
+                                            <p class="oe_module_name">
+                                                <field name="model_id"/>
+                                            </p>
+                                            <p>
+                                                <field name="user_ids" widget="statinfo"/>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div role="menuitem">
+                                    <a type="edit" class="o_kanban_manage_toggle_button float-right"
+                                       style="float: right;" href="#"
+                                       groups="pragtech_approval_hub.group_approval_hub_manager">
+                                        <i class="fa fa-edit" role="img" aria-label="Manage" title="Manage"/>
+                                    </a>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_approval_form">
+            <field name="name">Approval Form</field>
+            <field name="model">approvehub.form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_submit_user" class="oe_highlight" string="Submit" type="object"
+                                attrs="{'invisible': [('state', '=', 'submitted')]}"/>
+
+                        <button name="action_reset_draft" class="oe_highlight" string="Set to Draft" type="object"
+                                attrs="{'invisible': [('state', '!=', 'submitted')]}"/>
+
+                        <field name="state" widget="statusbar" statusbar_visible="draft,submitted" readonly="1"/>
+                    </header>
+                    <sheet>
+                        <widget name="web_ribbon" title="Submitted" bg_color="bg-success"
+                                attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                        <group>
+                            <field name="name" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="model_id" attrs="{'readonly': [('state', '!=', 'draft')]}"
+                                       required="True"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="model_name" readonly="1" invisible="1"/>
+                            <field name="domain_filter" widget="domain" options="{'model': 'model_name'}"
+                                   attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        </group>
+
+                        <notebook>
+                            <page string="Approver User List">
+                                <group>
+                                    <field name="minimum_users" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                </group>
+                                <field name="user_ids" attrs="{'readonly': [('state', '!=', 'draft')]}">
+                                    <tree editable="bottom">
+                                        <field name="user_id"/>
+                                        <field name="status"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Email Configuration">
+                                <group>
+                                    <field name="mail_notification" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                </group>
+                                <group>
+                                    <group attrs="{'invisible': [('mail_notification', '=', False)]}">
+                                        <field name="email_template_id"
+                                               domain="[('model_id', '=', 'approvehub.form')]"
+                                               attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_approval_form_tree">
+            <field name="name">Approval Form</field>
+            <field name="res_model">approvehub.form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Welcome To Approval Management System !!</p>
+            </field>
+        </record>
+    </data>
+</odoo>

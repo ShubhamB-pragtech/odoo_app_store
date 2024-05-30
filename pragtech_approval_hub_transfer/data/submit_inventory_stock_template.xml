@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="approval_submit_stock_order_template_id" model="mail.template">
+            <field name="name">Approval Submit Stock Order Email Template</field>
+            <field name="model_id" ref="pragtech_approval_hub_transfer.model_stock_picking"/>
+            <field name="subject">Success: Information Added..!!</field>
+            <field name="email_from">{{ (user.email) }}</field>
+            <field name="body_html" type="html">
+                <table border="0" cellpadding="0" cellspacing="0"
+                       style="padding-top: 16px; background-color: #FFFFFF; font-family: Verdana, Arial, sans-serif; color: #454748; width: 100%; border-collapse: separate;">
+                    <tr>
+                        <td align="center">
+                            <table border="0" cellpadding="0" cellspacing="0" width="590"
+                                   style="padding: 16px; background-color: #FFFFFF; color: #454748; border-collapse: separate;">
+                                <tbody>
+                                    <tr>
+                                        <td align="center" style="min-width: 590px;">
+                                            <table border="0" cellpadding="0" cellspacing="0"
+                                                   width="590"
+                                                   style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse: separate;">
+                                                <tr>
+                                                    <td style="text-align: center;">
+                                                        <hr width="100%"
+                                                            style="background-color: rgb(204, 204, 204); border: medium none; clear: both; display: block; font-size: 0px; min-height: 1px; line-height: 0; margin: 16px 0px 16px 0px;"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td valign="top" style="font-size: 13px;">
+                                                        <div>Dear<t t-out="ctx['customer_name'] or ''"/>,
+                                                            <br/>
+                                                            <br/>
+                                                            We are pleased to inform you
+                                                            <span style="font-weight: bold;">Reference ID:<t
+                                                                    t-out="object.name"/>,
+                                                            </span>
+                                                            form
+                                                            submission was successful!
+                                                            <span style="font-weight: bold;">Submitted on:
+                                                                <t t-out="object.create_date"/>
+                                                            </span>
+                                                            <br/>
+                                                            <div>
+                                                                <p>
+                                                                    You can check the details of your order by clicking
+                                                                    the
+                                                                    button below:
+                                                                </p>
+                                                                <p>
+                                                                    <a t-if="object.id"
+                                                                       t-att-href="'/web#id=' + str(object.id) + '&amp;model=stock.picking'"
+                                                                       style="padding: 5px 10px; color: #FFFFFF; text-decoration: none; background-color: #875A7B; border: 1px solid #875A7B; border-radius: 3px">
+                                                                        View Inventory Stock
+                                                                    </a>
+                                                                </p>
+                                                            </div>
+                                                            <br/>
+                                                            <span style="font-size: 15px; font-weight: bold;">Here are
+                                                                the details of submission:
+                                                            </span>
+                                                            <br/>
+                                                            <br/>
+                                                            <table style="width: 100%; border-collapse: collapse; border: 2px solid #333; text-align: center;">
+                                                                <thead>
+                                                                    <tr style="background-color: #333; color: #fff; font-weight: bold;">
+                                                                        <th style="padding: 8px; border: 2px solid #333;">
+                                                                            Product Name
+                                                                        </th>
+                                                                        <th style="padding: 8px; border: 2px solid #333;">
+                                                                            Quantity
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <t t-foreach="object.move_ids_without_package"
+                                                                       t-as="line">
+                                                                        <tr>
+                                                                            <td style="padding: 8px; border: 2px solid #333;">
+                                                                                <t t-esc="line.product_id.display_name"/>
+                                                                            </td>
+                                                                            <td style="padding: 8px; border: 2px solid #333;">
+                                                                                <t t-esc="line.product_uom_qty"/>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </t>
+                                                                </tbody>
+                                                            </table>
+                                                            <br/>
+                                                            <br/>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="text-align: center;">
+                                                        <hr width="100%"
+                                                            style="background-color: rgb(204, 204, 204); border: medium none; clear: both; display: block; font-size: 0px; min-height: 1px; line-height: 0; margin: 16px 0px 16px 0px;"/>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p>Your review and approval are valuable to us. We
+                                appreciate your feedback!
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+    </data>
+</odoo>

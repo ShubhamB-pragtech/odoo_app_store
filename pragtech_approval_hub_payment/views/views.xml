@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+<!--
+    <record model="ir.ui.view" id="pragtech_approval_hub_payment.list">
+      <field name="name">pragtech_approval_hub_payment list</field>
+      <field name="model">pragtech_approval_hub_payment.pragtech_approval_hub_payment</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+-->
+
+    <!-- actions opening views on models -->
+<!--
+    <record model="ir.actions.act_window" id="pragtech_approval_hub_payment.action_window">
+      <field name="name">pragtech_approval_hub_payment window</field>
+      <field name="res_model">pragtech_approval_hub_payment.pragtech_approval_hub_payment</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+-->
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="pragtech_approval_hub_payment.action_server">
+      <field name="name">pragtech_approval_hub_payment server</field>
+      <field name="model_id" ref="model_pragtech_approval_hub_payment_pragtech_approval_hub_payment"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="pragtech_approval_hub_payment" id="pragtech_approval_hub_payment.menu_root"/>
+-->
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="pragtech_approval_hub_payment.menu_1" parent="pragtech_approval_hub_payment.menu_root"/>
+    <menuitem name="Menu 2" id="pragtech_approval_hub_payment.menu_2" parent="pragtech_approval_hub_payment.menu_root"/>
+-->
+    <!-- actions -->
+<!--
+    <menuitem name="List" id="pragtech_approval_hub_payment.menu_1_list" parent="pragtech_approval_hub_payment.menu_1"
+              action="pragtech_approval_hub_payment.action_window"/>
+    <menuitem name="Server to list" id="pragtech_approval_hub_payment" parent="pragtech_approval_hub_payment.menu_2"
+              action="pragtech_approval_hub_payment.action_server"/>
+-->
+  </data>
+</odoo>

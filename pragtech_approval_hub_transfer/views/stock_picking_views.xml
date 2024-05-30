@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_stock_picking_inherit" model="ir.ui.view">
+        <field name="name">custom_stock_picking_view</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+
+            <button name="action_confirm" position="replace">
+                <button name="action_confirm" string="Mark as Todo" type="object" class="oe_highlight"
+                        groups="base.group_user"
+                        data-hotkey="x"
+                        attrs="{'invisible': ['|', ('is_configured', '=', True), ('state', 'in', ['waiting','assigned','confirmed ','done','cancel'])]}"/>
+            </button>
+
+            <button name="action_open_label_type" position="replace">
+                <button string="Print Labels" type="object" name="action_open_label_type"
+                        attrs="{'invisible': ['|', ('is_configured', '=', True), ('state', 'in', ['waiting','cancel'])]}"/>
+            </button>
+
+            <button name="button_scrap" position="replace">
+                <button name="button_scrap" type="object" string="Scrap"
+                        data-hotkey="y"
+                        attrs="{'invisible': ['|', ('is_configured', '=', True), ('state', 'in', ['waiting','cancel'])]}"/>
+            </button>
+
+            <button name="action_cancel" position="replace">
+                <button name="action_cancel"
+                        string="Cancel" groups="base.group_user" type="object" data-hotkey="z"
+                        attrs="{'invisible': [('state', 'in', ['waiting','cancel'])]}"/>
+            </button>
+
+            <button name="action_toggle_is_locked" position="replace">
+                <button name="action_toggle_is_locked"
+                        attrs="{'invisible': ['|', ('is_configured', '=', True), ('state', 'in', ['waiting','cancel'])]}"
+                        string="Unlock" groups="stock.group_stock_manager" type="object"
+                        help="If the picking is unlocked you can edit initial demand (for a draft picking) or done quantities (for a done picking)."
+                        data-hotkey="l"/>
+            </button>
+
+
+            <xpath expr="//field[@name='origin']" position="after">
+                <field name="is_configured" invisible="1"/>
+            </xpath>
+
+            <xpath expr="//header/button[@name='action_cancel']" position="before">
+                <field name="is_visible_buttons" invisible="1"/>
+
+                <button name="action_submit" type="object" string="Submit" class="btn-primary"
+                        attrs="{'invisible': ['|', ('is_configured', '=', False), ('state', '!=', 'draft')]}"/>
+                <button name="action_approve" type='object' class="btn-primary" string="Approve"
+                        attrs="{'invisible': ['|', ('is_configured', '=', False), ('state', 'in', ['approved', 'sent'])], 'invisible': ['|',('is_visible_buttons', '=', False), ('state', 'in', ['draft','approved','rejected','assigned','confirmed','done','cancel'])]}"/>
+                <button name="action_reject" type="object" class="btn-primary" string="Reject"
+                        attrs="{'invisible': ['|', ('is_configured', '=', False), ('state', 'in', ['approved', 'sent'])], 'invisible': ['|',('is_visible_buttons', '=', False), ('state', 'in', ['draft','approved','rejected','assigned', 'confirmed','done','cancel'])]}"/>
+            </xpath>
+
+            <notebook position="inside">
+                <page string="User Approvals">
+                    <field name="approval_user_line_ids">
+                        <tree create="false">
+                            <field name="user_id" readonly="True" widget=""/>
+                            <field name="status" readonly="True" widget=""/>
+                            <field name="rejection_reason" string="Rejection Reason" readonly="True"
+                                   widget=""/>
+                        </tree>
+                    </field>
+                </page>
+            </notebook>
+        </field>
+    </record>
+</odoo>

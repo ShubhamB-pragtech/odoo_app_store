@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_account_payment_inherit" model="ir.ui.view">
+        <field name="name">custom_account_payment_view</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="arch" type="xml">
+
+            <button name="action_post" position="replace">
+                <button name="action_post" string="Confirm" type="object" class="oe_highlight"
+                        attrs="{'invisible': ['|', ('is_configured', '=', True), ('state', 'in', ['waiting','rejected','posted','cancel'])]}"
+                        data-hotkey="v"/>
+            </button>
+
+            <button name="action_draft" position="replace">
+                <button name="action_draft" string="Reset To Draft" type="object" class="btn btn-secondary"
+                        attrs="{'invisible': [('state', 'in', ['draft','waiting','approved','cancel'])]}"
+                        groups="account.group_account_invoice" data-hotkey="w"/>
+            </button>
+
+            <button name="action_cancel" position="replace">
+                <button name="action_cancel" string="Cancel" type="object"
+                        attrs="{'invisible': [('state', 'in', ['waiting','approved','posted','cancel'])]}"
+                        data-hotkey="z"/>
+            </button>
+
+            <xpath expr="//field[@name='payment_method_line_id']" position="after">
+                <field name="is_configured" invisible="1"/>
+            </xpath>
+
+            <xpath expr="//header/button[@name='action_cancel']" position="before">
+                <field name="is_visible_buttons" invisible="1"/>
+                <button name="action_submit" type="object" string="Submit" class="btn-primary"
+                        attrs="{'invisible': ['|', ('is_configured', '=', False), ('state', '!=', 'draft')]}"/>
+                <button name="action_approve" type='object' class="btn-primary" string="Approve"
+                        attrs="{'invisible': ['|', ('is_configured', '=', False), ('state', 'in', ['approved', 'sent'])], 'invisible': ['|',('is_visible_buttons', '=', False), ('state', 'in', ['draft','approved','rejected','posted','done','cancel'])]}"/>
+                <button name="action_reject" type="object" class="btn-primary" string="Reject"
+                        attrs="{'invisible': ['|', ('is_configured', '=', False), ('state', 'in', ['approved', 'sent'])], 'invisible': ['|',('is_visible_buttons', '=', False), ('state', 'in', ['draft','approved','rejected','posted','done','cancel'])]}"/>
+            </xpath>
+
+            <sheet>
+                <notebook>
+                    <page string="User Approvals">
+                        <field name="approval_user_line_ids">
+                            <tree create="false">
+                                <field name="user_id" readonly="True" widget=""/>
+                                <field name="status" readonly="True" widget=""/>
+                                <field name="rejection_reason" string="Rejection Reason" readonly="True"
+                                       widget=""/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+            </sheet>
+        </field>
+    </record>
+</odoo>

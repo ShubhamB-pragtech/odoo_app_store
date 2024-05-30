@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="view_sale_order_inherit" model="ir.ui.view">
+        <field name="name">custom_sale_order_view</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <button name="action_confirm" id="action_confirm" position="replace">
+                <button name="action_confirm" id="action_confirm"
+                        data-hotkey="v" string="Confirm" class="btn-primary-secondary" type="object"
+                        context="{'validate_analytic': True}"
+                        attrs="{'invisible': ['|', ('is_configured', '=', True), ('state', 'in', ['waiting','sale','cancel'])]}"/>
+            </button>
+
+            <button name="action_confirm" attrs="{'invisible': [('state', 'not in', ['draft'])]}" position="replace"/>
+
+            <xpath expr="//field[@name='validity_date']" position="after">
+                <field name="is_configured" invisible="1"/>
+            </xpath>
+
+            <xpath expr="//header" position="inside">
+                <field name="is_visible_buttons" invisible="1"/>
+                <button name="action_submit" type="object" string="Submit" class="btn-primary"
+                        attrs="{'invisible': ['|', ('is_configured', '=', False), ('state', '!=', 'draft')]}"/>
+
+                <button name="action_approve" type='object' string="Approve" class="btn-primary"
+                        attrs="{'invisible': ['|', ('is_configured', '=', False), ('state', 'in', ['approved', 'sent'])], 'invisible': ['|',('is_visible_buttons', '=', False), ('state', 'in', ['draft','approved', 'sent','sale','rejected','cancel'])]}"/>
+
+                <button name="action_reject" type='object' string="Reject" class="btn-primary"
+                        attrs="{'invisible': ['|', ('is_configured', '=', False), ('state', 'in', ['approved', 'sent'])], 'invisible': ['|',('is_visible_buttons', '=', False), ('state', 'in', ['draft','approved', 'sent','sale','rejected','cancel'])]}"/>
+
+                <button name="action_draft" type='object' string="Draft" class="btn-primary"
+                        attrs="{'invisible': [('state', '!=', 'rejected')]}"
+                />
+                <xpath name="action_quotation_send" position="replace">
+                    <button name="action_quotation_send" string="Sent by Email" class="btn-primary"
+                            type="object" context="{'validate_analytic': True}"
+                            attrs="{'invisible': ['|', ('state', '!=', 'approved'), ('is_configured', '=', True)]}"/>
+                </xpath>
+
+                <xpath name="action_cancel" position="replace">
+                    <button name="action_cancel" string="Cancel" class="btn-secondary" type="object"
+                            attrs="{'invisible': ['|', ('state', '!=', 'approved'), ('is_configured', '=', True)]}"/>
+                </xpath>
+
+            </xpath>
+
+            <notebook position="inside">
+                <page string="User Approvals">
+                    <field name="approval_user_line_ids">
+                        <tree create="false">
+                            <field name="user_id" readonly="True" widget=""/>
+                            <field name="status" readonly="True" widget=""/>
+                            <field name="state" readonly="True" invisible="1" widget=""/>
+                            <field name="rejection_reason" string="Rejection Reason" readonly="True"
+                                   widget=""/>
+                        </tree>
+                    </field>
+                </page>
+            </notebook>
+        </field>
+    </record>
+</odoo>

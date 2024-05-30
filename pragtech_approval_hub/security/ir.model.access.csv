@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_approvehub_form,access.approvehub.form,model_approvehub_form,,1,1,1,1
+access_approvehub_form_user_line,access.approvehub.form.user.line,model_approvehub_form_user_line,,1,1,1,1
+

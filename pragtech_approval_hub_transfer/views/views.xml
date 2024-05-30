@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+<!--
+    <record model="ir.ui.view" id="pragtech_approval_hub_transfer.list">
+      <field name="name">pragtech_approval_hub_transfer list</field>
+      <field name="model">pragtech_approval_hub_transfer.pragtech_approval_hub_transfer</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+-->
+
+    <!-- actions opening views on models -->
+<!--
+    <record model="ir.actions.act_window" id="pragtech_approval_hub_transfer.action_window">
+      <field name="name">pragtech_approval_hub_transfer window</field>
+      <field name="res_model">pragtech_approval_hub_transfer.pragtech_approval_hub_transfer</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+-->
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="pragtech_approval_hub_transfer.action_server">
+      <field name="name">pragtech_approval_hub_transfer server</field>
+      <field name="model_id" ref="model_pragtech_approval_hub_transfer_pragtech_approval_hub_transfer"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="pragtech_approval_hub_transfer" id="pragtech_approval_hub_transfer.menu_root"/>
+-->
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="pragtech_approval_hub_transfer.menu_1" parent="pragtech_approval_hub_transfer.menu_root"/>
+    <menuitem name="Menu 2" id="pragtech_approval_hub_transfer.menu_2" parent="pragtech_approval_hub_transfer.menu_root"/>
+-->
+    <!-- actions -->
+<!--
+    <menuitem name="List" id="pragtech_approval_hub_transfer.menu_1_list" parent="pragtech_approval_hub_transfer.menu_1"
+              action="pragtech_approval_hub_transfer.action_window"/>
+    <menuitem name="Server to list" id="pragtech_approval_hub_transfer" parent="pragtech_approval_hub_transfer.menu_2"
+              action="pragtech_approval_hub_transfer.action_server"/>
+-->
+  </data>
+</odoo>
